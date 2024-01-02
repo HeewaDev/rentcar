@@ -1,11 +1,11 @@
-import { Route, Navigate } from 'react-router-dom';
-import BookingCar from '../pages/BookingCar';
+import { Route, Navigate } from "react-router-dom";
+import BookingCar from "../pages/BookingCar";
 
 function ProtectedRoute({ Component, ...rest }) {
-  const isAuthenticated = !!localStorage.getItem('user');
+  const isAuthenticated = !!localStorage.getItem("user");
 
   return isAuthenticated ? (
-    <Route {...rest} element={<BookingCar/>} />
+    <Route element={<BookingCar {...rest} />} />
   ) : (
     <Navigate to="/login" />
   );
