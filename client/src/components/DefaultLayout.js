@@ -46,7 +46,7 @@ function DefaultLayout(props) {
               </h1>
 
               <Dropdown overlay={menu} placement="bottomCenter">
-                <Button style={{ color: 'blue' }}>{user.username}</Button>
+                <Button style={{ color: 'blue' }}>{user?.username}</Button>
               </Dropdown>
             </div>
           </Col>
