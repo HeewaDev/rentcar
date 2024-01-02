@@ -1,9 +1,8 @@
-import { createStore, applyMiddleware, compose , combineReducers} from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 
-
-import {thunk} from 'redux-thunk'
-import { carsReducer } from './reducers/carsReducer';
-import alertsReducer from './reducers/alertsReducer';
+import { thunk } from "redux-thunk";
+import { carsReducer } from "./reducers/carsReducer";
+import alertsReducer from "./reducers/alertsReducer";
 
 // Enhancers for Redux DevTools Extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -12,18 +11,14 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // Example: import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-
-    carsReducer,
-    alertsReducer
-
-})
+  carsReducer,
+  alertsReducer,
+});
 // Create store with enhancers
 const store = createStore(
   rootReducer,
   /* preloadedState, */
-  composeEnhancers(
-    applyMiddleware(thunk)
-  )
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 export default store;
