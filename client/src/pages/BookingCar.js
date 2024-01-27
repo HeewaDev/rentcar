@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-
+import StripeCheckout from "react-stripe-checkout";
 import DefaultLayout from "../components/DefaultLayout";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllCars } from "../redux/actions/carsActions";
 import Spinner from "../components/Spinner";
-import { Col, Divider, Row, DatePicker, Checkbox } from "antd";
+import { Col, Divider, Row, DatePicker, Checkbox, Modal } from "antd";
 import moment from "moment";
 import { bookCar } from "../redux/actions/bookingActions";
 import { useParams } from "react-router-dom";
@@ -24,8 +24,9 @@ function BookingCar({ match }) {
 
   const dispatch = useDispatch();
   const [totalHours, setTotalHours] = useState(0);
-  const [driver, setDriver] = useState(false);
+  const [driver, setdriver] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     dispatch(getAllCars());
   }, []);
@@ -49,8 +50,9 @@ function BookingCar({ match }) {
     setTotalHours(values[1].diff(values[0], "hours"));
   }
 
-  function bookNow() {
+  function onToken(token) {
     const reqObj = {
+      token,
       user: JSON.parse(localStorage.getItem("user"))._id,
       car: car?._id,
       totalHours,
@@ -61,7 +63,8 @@ function BookingCar({ match }) {
         to,
       },
     };
-    dispatch(bookCar(reqObj));
+    console.log(reqObj);
+    // dispatch(bookCar(reqObj));
   }
   return (
     <DefaultLayout>
@@ -81,7 +84,7 @@ function BookingCar({ match }) {
             {" "}
             Car Info
           </Divider>
-          <div style={{ textAlign: "right" }}>
+          <div style={{ textAlign: "left" }}>
             <p>{car?.name}</p>
             <p>{car?.rentPerHour} Rent Per Hour</p>
             <p>Fuel : {car?.fuelType}</p>
@@ -98,35 +101,76 @@ function BookingCar({ match }) {
             onChange={selectTimeSlots}
           />
 
-          <div>
-            <p>Total Hours : {totalHours}</p>
-            <p>
-              {" "}
-              Rent Per Hour: <b>{car?.rentPerHour}</b>
-            </p>
-            <Checkbox
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setDriver(true);
-                } else {
-                  setDriver(false);
-                }
-              }}
-            >
-              Driver Required{" "}
-            </Checkbox>
-            <p>
-              We have best drivers to provide and assist you with best service
-              including refilling up to 60 litre of fuel on us
-            </p>
-            <h3>Total Amount : {totalAmount} </h3>
-            <button className="btn1" onClick={bookNow}>
-              {" "}
-              Book Now
-            </button>
-          </div>
+          <button
+            className="btn1 mt-2"
+            onClick={() => {
+              setShowModal(true);
+            }}
+          >
+            See Booked Slots
+          </button>
+          {from && to && (
+            <div>
+              <p>
+                Total Hours : <b>{totalHours}</b>
+              </p>
+              <p>
+                Rent Per Hour : <b>{car.rentPerHour}</b>
+              </p>
+              <p>
+                {" "}
+                Driver Required :
+                <Checkbox
+                  className="ml-2"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setdriver(true);
+                    } else {
+                      setdriver(false);
+                    }
+                  }}
+                ></Checkbox>
+              </p>
+
+              <h3>Total Amount : {totalAmount}</h3>
+
+              <StripeCheckout
+                shippingAddress
+                token={onToken}
+                currency="usd"
+                amount={totalAmount * 100}
+                stripeKey="pk_test_51OUeCPBnSo6M6JfM1n7wRChx6waYWYjcEBk9VUeCuyoKtszy0aa6HO3QMRe40daZ9AFqXy5acUJAD0phaK8BW9gT00RTzrOq1g"
+              >
+                <button className="btn1">Book Now</button>
+              </StripeCheckout>
+            </div>
+          )}
         </Col>
       </Row>
+      <Modal
+        visible={showModal}
+        closable={false}
+        footer={false}
+        title="Booked time slots"
+      >
+        {car && (
+          <div className="p-2">
+            {car.bookedTimeSlots.map((slot) => {
+              return (
+                <button className="btn1 mt-2">
+                  {" "}
+                  {slot.from} - {slot.to}
+                </button>
+              );
+            })}
+            <div className="text-right">
+              <button className="btn1" onClick={() => setShowModal(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </DefaultLayout>
   );
 }

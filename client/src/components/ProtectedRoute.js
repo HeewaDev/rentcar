@@ -4,11 +4,7 @@ import BookingCar from "../pages/BookingCar";
 function ProtectedRoute({ Component, ...rest }) {
   const isAuthenticated = !!localStorage.getItem("user");
 
-  return isAuthenticated ? (
-    <Route element={<BookingCar {...rest} />} />
-  ) : (
-    <Navigate to="/login" />
-  );
+  return isAuthenticated ? <Component /> : <Navigate to="/login" />;
 }
 
 export default ProtectedRoute;

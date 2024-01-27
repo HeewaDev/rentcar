@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { thunk } from "redux-thunk";
 import { carsReducer } from "./reducers/carsReducer";
 import alertsReducer from "./reducers/alertsReducer";
+import { bookingsReducer } from "./reducers/bookingReducer";
 
 // Enhancers for Redux DevTools Extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -13,6 +14,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   carsReducer,
   alertsReducer,
+  bookingsReducer
 });
 // Create store with enhancers
 const store = createStore(

@@ -16,12 +16,20 @@ function DefaultLayout(props) {
 
   const menu = (
     <Menu>
+
+        <Menu.Item>
+        <a href="/userbookings">Profile</a>
+        </Menu.Item>
+
       <Menu.Item>
+
         <a href="/">Home</a>
       </Menu.Item>
+
       <Menu.Item>
-        <a href="/userbookings">Bookings</a>
+        <a href="/userbookings">My Bookings</a>
       </Menu.Item>
+
       <Menu.Item>
         <a href="/admin">Admin</a>
       </Menu.Item>
