@@ -15,9 +15,11 @@ router.get("/getallcars", async (req, res) => {
 router.post("/addcar", async (req, res) => {
   try {
     const newCar = new Car(req.body);
+    console.log(newCar);
     await newCar.save();
     res.send("Car added successfully");
   } catch (error) {
+    console.log(error);
     return res.status(400).json(error);
   }
 });
@@ -42,9 +44,9 @@ router.post("/deletecar", async (req, res) => {
   try {
     await Car.findOneAndDelete({ _id: req.body.carid });
 
-    await car.save();
     res.send("Car Item Deleted successfully");
   } catch (error) {
+    console.log(error);
     return res.status(400).json(error);
   }
 });

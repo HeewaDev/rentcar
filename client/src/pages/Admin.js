@@ -4,25 +4,98 @@ import React, { useState, useEffect } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import { useSelector, useDispatch } from "react-redux";
 import { DeleteCar, getAllCars } from "../redux/actions/carsActions";
-import { Button, Row, Col, DatePicker, Checkbox,Edit, Popconfirm  } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  DatePicker,
+  Checkbox,
+  Edit,
+  Popconfirm,
+  Table,
+  Space,
+} from "antd";
 import Spinner from "../components/Spinner";
-import { Link } from "react-router-dom";
-import {DeleteOutlined , EditOutlined, StarTwoTone} from '@ant-design/icons'
+import { Link, useNavigate } from "react-router-dom";
+import { DeleteOutlined, EditOutlined, StarTwoTone } from "@ant-design/icons";
 
 function Admin() {
-   const { cars } = useSelector((state) => state.carsReducer);
+  const navigate = useNavigate();
+  const { cars } = useSelector((state) => state.carsReducer);
   const { loading } = useSelector((state) => state.alertsReducer);
-  const [totalCars, setTotalcars] = useState([]);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllCars());
   }, []);
 
-  useEffect(() => {
-    setTotalcars(cars);
-  }, [cars]);
+  const columns = [
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (text) => (
+        <img
+          src={text}
+          alt="car"
+          height="60"
+          width="60"
+          style={{
+            borderRadius: 5,
+            objectFit: "cover",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity",
+    },
+    {
+      title: "Fuel type",
+      dataIndex: "fuelType",
+      key: "fuelType",
+    },
+    {
+      title: "Rent per hour",
+      dataIndex: "rentPerHour",
+      key: "rentPerHour",
+    },
 
+    {
+      title: "Action",
+      key: "action",
+      render: (text, record) => (
+        <Space size="middle">
+          <Button
+            onClick={() => {
+              navigate(`/editcar/${record._id}`);
+            }}
+          >
+            Edit
+          </Button>
+          <Popconfirm
+            title={`Are you sure to delete ${record.name}?`}
+            onConfirm={() => {
+              dispatch(DeleteCar({ carid: record._id }));
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button danger>Delete</Button>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
   return (
     <DefaultLayout>
       <Row justify="center" gutter={16} className="mt-2">
@@ -36,47 +109,7 @@ function Admin() {
         </Col>
       </Row>
 
-      {loading == true && <Spinner />}
-
-      <Row justify="center" gutter={16}>
-        {totalCars.map((car) => {
-          return (
-            <Col lg={5} sm={24} xs={24}>
-              <div className="car p-2 bs1">
-                <img src={car.image} className="carimg"  alt='vehichle'/>
-
-                <div className="car-content d-flex align-items-center justify-content-between">
-                  <div className="text-left pl-2">
-                    <p>{car.name}</p>
-                    <p> Rent Per Hour {car.rentPerHour} /-</p>
-                  </div>
-
-                  <div className="mr-4">
-                    <Link to={`/editcar/${car._id}`}>
-                      <EditOutlined
-                        className="mr-3"
-                        style={{ color: "green", cursor: "pointer" }}
-                      />
-                    </Link>
-
-                    <Popconfirm
-                      title="Are you sure to delete this car?"
-                      onConfirm={()=>{dispatch(DeleteCar({carid : car._id}))}}
-                      
-                      okText="Yes"
-                      cancelText="No"
-                    >
-                      <DeleteOutlined
-                        style={{ color: "red", cursor: "pointer" }}
-                      />
-                    </Popconfirm>
-                  </div>
-                </div>
-              </div>
-            </Col>
-          );
-        })}
-      </Row>
+      {loading ? <Spinner /> : <Table columns={columns} dataSource={cars} />}
     </DefaultLayout>
   );
 }

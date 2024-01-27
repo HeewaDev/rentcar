@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import DefaultLayout from "../components/DefaultLayout";
 import Spinner from "../components/Spinner";
 import { addCar, getAllCars, editCar } from "../redux/actions/carsActions";
+import { useParams } from "react-router-dom";
 
-function EditCar({ match }) {
+function EditCar() {
+  const params = useParams();
   const { cars } = useSelector((state) => state.carsReducer);
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.alertsReducer);
@@ -16,8 +18,7 @@ function EditCar({ match }) {
       dispatch(getAllCars());
     } else {
       settotalcars(cars);
-      setcar(cars.find((o) => o._id === match.params.carid));
-      
+      setcar(cars.find((o) => o._id === params.carid));
     }
   }, [cars]);
 
@@ -32,7 +33,7 @@ function EditCar({ match }) {
     <DefaultLayout>
       {loading && <Spinner />}
       <Row justify="center mt-5">
-        <Col lg={12} sm={24} xs={24} className='p-2'>
+        <Col lg={12} sm={24} xs={24} className="p-2">
           {totalcars.length > 0 && (
             <Form
               initialValues={car}

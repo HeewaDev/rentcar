@@ -1,104 +1,102 @@
-html{
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
   font-size: 62.5%;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap");
 
 body {
   margin: 0;
-  font-family: 'Roboto Mono', monospace;
-    
+  font-family: "Roboto Mono", monospace;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-background-color: azure;
- 
+  background-color: azure;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.bs1{
+.bs1 {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.spinner{
+.spinner {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 1;
 }
 
-h1{
+h1 {
   font-size: 2.5 rem;
   font-weight: bold;
-  color: #0047AB;
-
+  color: #0047ab;
 }
-p{
-  margin:0.5rem !important; 
-  
+p {
+  margin: 0.5rem !important;
+
   padding: 0;
 }
-.header{
+.header {
   padding: 2 rem;
   background: azure;
-
 }
 
-.btn1{
+.btn1 {
   box-shadow: none !important;
-  background-color : white !important;
+  background-color: white !important;
   color: orangered !important;
   border: 1px solid orangered !important;
   padding: 5px 15px !important;
   outline: none !important;
 }
-.bt1:focus{
+.bt1:focus {
   border: none;
 }
-button{
+button {
   padding: 3px 10px !important;
 }
 
-content{
+content {
   min-height: 90vh;
   background-color: azure;
-
 }
 
-.carImg{
+.carImg {
   height: 15rem;
-  width:auto;
+  width: auto;
   border-radius: 0.5 rem;
 }
 
-.login{
+.login {
   background-color: black;
   padding-top: 5 rem;
   min-height: 100vh;
-  
-
 }
 
-.login label , .login h1{
-  color: rgb(234,189,189) !important;
+.login label,
+.login h1 {
+  color: rgb(234, 189, 189) !important;
   opacity: 0.6;
 }
 
-.login-form{
+.login-form {
   background-color: #1f1f1f;
 }
 
-.login-form input{
+.login-form input {
   background-color: #333333 !important;
-  border:none !important;
+  border: none !important;
   color: white;
   opacity: 0.5;
 }
-
 
 .login-logo {
   position: absolute;
@@ -108,17 +106,15 @@ content{
   text-align: center;
 }
 
-
-.login a{
+.login a {
   color: white !important;
   opacity: 0.5;
   text-decoration: none;
   text-shadow: white;
 }
 
-
-.carimg2{
-height: 40rem;
-border-radius: 1rem;
-width: auto ;
+.carimg2 {
+  height: 40rem;
+  border-radius: 1rem;
+  width: auto;
 }
